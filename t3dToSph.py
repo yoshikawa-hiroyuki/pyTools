@@ -1,8 +1,14 @@
 #! /usr/bin/env python
 import sys, os
 import numpy
-import libtiff3d
-from SPH import *
+try:
+    import libtiff3d
+except:
+    sys.exit('%s: can not import libtiff3d, see https://github.com/joe-jordan/pylibtiff3d' % sys.argv[0])
+try:
+    from SPH import *
+except:
+    sys.exit('%s: can not import SPH' % sys.argv[0])
 
 if len(sys.argv) < 3:
     sys.exit('usage: %s infile.tif outfile.sph' % sys.argv[0])
@@ -17,9 +23,9 @@ except:
 if len(td.shape) != 3:
     sys.exit('%s: not 3D TIFF: %s' % (sys.argv[0], sys.argv[1]))
 
-sph = SPH()
+sph = SPH.SPH()
 sph._veclen = 1
-sph._dtype = SPH.DT_SINGLE
+sph._dtype = sph.DT_SINGLE
 sph._org = [0.0, 0.0, 0.0]
 sph._pitch = [1.0, 1.0, 1.0]
 
