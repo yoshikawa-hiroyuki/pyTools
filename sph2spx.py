@@ -23,7 +23,7 @@ ifp = open(srcf, "rb")
 
 # attribure record
 bo = '<'
-ispx = 4739155 # 'SPX\0' in little endian
+ispx = 5787731 # 'SPX\0' in little endian
 header = ifp.read(16)
 buff = struct.unpack(bo+'4i', header)
 svType = buff[1]
