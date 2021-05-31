@@ -7,24 +7,24 @@ def convert(dims, srcf, dstf, pitch=None):
     try:
         dimSz = dims[0] * dims[1] * dims[2]
         if dimSz < 1:
-            print "invalid dim size"
+            print("invalid dim size")
             return -1
     except:
-        print "invalid dim size"
+        print("invalid dim size")
         return -1
 
     # open srcfile
     try:
         ifp = open(srcf, "rb")
     except:
-        print "open failed: %s" % srcf
+        print("open failed: %s" % srcf)
         return -1
     
     # open dstf
     try:
         ofp = open(dstf, "wb")
     except:
-        print "open failed: %s" % dstf
+        print("open failed: %s" % dstf)
         ifp.close
         return -1
 
@@ -55,7 +55,7 @@ def convert(dims, srcf, dstf, pitch=None):
     ofp.write(struct.pack('iifi', sz, 0, 0.0, sz))
 
     # convert data
-    ofp.write(struct.pack('i', dimSz * 4))
+    ofp.write(struct.pack('I', dimSz * 4))
     slSz = dims[0] * dims[1]
     fmt = '%d' % slSz + 'B'
     try:
@@ -64,11 +64,11 @@ def convert(dims, srcf, dstf, pitch=None):
             for i in range(slSz):
                 ofp.write(struct.pack('f', slice[i]))
     except:
-        print 'conversion failed'
+        print('conversion failed')
         ifp.close()
         ofp.close()
         return -1
-    ofp.write(struct.pack('i', dimSz * 4))
+    ofp.write(struct.pack('I', dimSz * 4))
 
     ifp.close()
     ofp.close()
@@ -76,7 +76,7 @@ def convert(dims, srcf, dstf, pitch=None):
 
 
 def usage():
-    print 'usage: RawToSph.py infile.raw outfile.sph IMAX JMAX KMAX [px py pz]'
+    print('usage: RawToSph.py infile.raw outfile.sph IMAX JMAX KMAX [px py pz]')
 
 
 if __name__ == '__main__':
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     try:
         dims = [int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5])]
     except:
-        print 'invalid args'
+        print('invalid args')
         sys.exit(-1)
 
     pit = None
@@ -95,7 +95,7 @@ if __name__ == '__main__':
         try:
             pit = [float(sys.argv[6]), float(sys.argv[7]), float(sys.argv[8])]
         except:
-            print 'invalid args'
+            print('invalid args')
             sys.exit(-1)
     
     ret = convert(dims, sys.argv[1], sys.argv[2], pit)
