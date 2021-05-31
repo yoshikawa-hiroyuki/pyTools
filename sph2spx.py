@@ -35,10 +35,10 @@ if svType != 1 and svType != 2:
     svType = buff[1]
     dType = buff[2]
     if svType != 1 and svType != 2:
-        print "invalid svType: not 1 nor 2"
+        print("invalid svType: not 1 nor 2")
         sys.exit(-1)
 if dType != 1 and dType != 2:
-    print "invalid dType: not 1 nor 2"
+    print("invalid dType: not 1 nor 2")
     sys.exit(-1)
 
 # size record
@@ -49,7 +49,7 @@ else:
 dims = (buff[1], buff[2], buff[3])
 dimSz = dims[0] * dims[1] * dims[2]
 if dimSz < 1:
-    print "invalid dims: %d x %d x %d" % (dims[0], dims[1], dims[2])
+    print("invalid dims: %d x %d x %d" % (dims[0], dims[1], dims[2]))
     sys.exit(-1)
 
 # org record
@@ -98,39 +98,39 @@ else:
 ofp.write(struct.pack('@i', ispx))
 ofp.write(struct.pack(bo+'iiiiiiiq', 3,
                       vlen, dtype, gc, rlen, crddef, aux, blksize))
-print 'dimension=3'
-print 'vlen=', vlen
-print 'dtype=', dtype
-print 'gc=', gc
-print 'rlen=', rlen
-print 'crddef=', crddef
-print 'aux=', aux
-print 'blksize=', blksize
+print('dimension=3')
+print('vlen=', vlen)
+print('dtype=', dtype)
+print('gc=', gc)
+print('rlen=', rlen)
+print('crddef=', crddef)
+print('aux=', aux)
+print('blksize=', blksize)
 
 # write size
 ofp.write(struct.pack(bo+'qqq', dims[0], dims[1], dims[2]))
-print 'dims=', dims
+print('dims=', dims)
 
 # write org
 if rlen == 4:
     ofp.write(struct.pack(bo+'fff', org[0], org[1], org[2]))
 else:
     ofp.write(struct.pack(bo+'ddd', org[0], org[1], org[2]))
-print 'org=', org
+print('org=', org)
 
 # write pitch
 if rlen == 4:
     ofp.write(struct.pack(bo+'fff', pitch[0], pitch[1], pitch[2]))
 else:
     ofp.write(struct.pack(bo+'ddd', pitch[0], pitch[1], pitch[2]))
-print 'pitch=', pitch
+print('pitch=', pitch)
 
 # write time
 if rlen == 4:
     ofp.write(struct.pack(bo+'qf', step, ftime))
 else:
     ofp.write(struct.pack(bo+'qd', step, ftime))
-print 'step=%d, time=%f' % (step, ftime)
+print('step=%d, time=%f' % (step, ftime))
 
 # write data
 dimsIJV = dims[0] * dims[1] * vlen
