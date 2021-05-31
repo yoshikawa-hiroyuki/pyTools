@@ -94,14 +94,14 @@ def xformObj(in_f, out_f,
     try:
         ifp = open(in_f, "r")
     except:
-        print "open failed: %s" % in_f
+        print("open failed: %s" % in_f)
         return False
 
     # open output file
     try:
         ofp = open(out_f, "w")
     except:
-        print "open failed: %s" % out_f
+        print("open failed: %s" % out_f)
         ifp.close()
         return False
 
