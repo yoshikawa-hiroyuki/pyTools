@@ -22,7 +22,7 @@ def scanSph(tgtf):
     try:
         ifp = open(tgtf, 'rb')
     except:
-        print 'open failed: %s' % tgtf
+        print('open failed: %s' % tgtf)
         return -1
   
     # type record
@@ -31,39 +31,39 @@ def scanSph(tgtf):
     buff = struct.unpack(bo+'iiii', header)
     svType = buff[1]
     dType = buff[2]
-    print 'svType = ', svType,
+    print('svType = ', svType,)
     if ( svType == 1 ):
-        print '(scalar)'
+        print('(scalar)')
     elif ( svType == 2 ):
-        print '(vector)'
+        print('(vector)')
     else:
         bo = '>'
         buff = struct.unpack(bo+'iiii', header)
         svType = buff[1]
         dType = buff[2]
-        print 'svType = ', svType,
+        print('svType = ', svType,)
         if ( svType == 1 ):
-            print '(scalar)'
+            print('(scalar)')
         elif ( svType == 2 ):
-            print '(vector)'
+            print('(vector)')
         else:
             ifp.close()
-            print 'invalid svType: %s' % dType
+            print('invalid svType: %s' % dType)
             return -1
 
     if bo == '<':
-        print 'endian = little'
+        print('endian = little')
     else:
-        print 'endian = big'
+        print('endian = big')
 
-    print 'dType = ', dType,
+    print('dType = ', dType,)
     if ( dType == 1 ):
-        print '(single precision)'
+        print('(single precision)')
     elif ( dType == 2 ):
-        print '(double precision)'
+        print('(double precision)')
     else:
         ifp.close()
-        print 'invalid dType: %s' % dType
+        print('invalid dType: %s' % dType)
         return -1
     
     # size record
@@ -76,7 +76,7 @@ def scanSph(tgtf):
         dims = (buff[0], buff[1], buff[2])
         buff = struct.unpack(bo+'i', ifp.read(4))
     
-    print 'dims = ', dims
+    print('dims = ', dims)
     
     # org record
     if ( dType == 1 ):
@@ -88,7 +88,7 @@ def scanSph(tgtf):
         org = (buff[0], buff[1], buff[2])
         buff = struct.unpack(bo+'i', ifp.read(4))
     
-    print 'org = ', org
+    print('org = ', org)
     
     # pitch record
     if ( dType == 1 ):
@@ -100,7 +100,7 @@ def scanSph(tgtf):
         pitch = (buff[0], buff[1], buff[2])
         buff = struct.unpack(bo+'i', ifp.read(4))
     
-    print 'pitch = ', pitch
+    print('pitch = ', pitch)
     
     # time record
     if ( dType == 1 ):
@@ -114,10 +114,10 @@ def scanSph(tgtf):
         tm = buff[1]
         buff = struct.unpack(bo+'i', ifp.read(4))
     
-    print 'time step = ', step, ' (', tm, ')'
+    print('time step = ', step, ' (', tm, ')')
     
     # skip data sz
-    print 'scanning data record ...\r',
+    print('scanning data record ...\r',)
     sys.stdout.flush()
     ifp.read(4)
     
@@ -167,9 +167,9 @@ def scanSph(tgtf):
     ifp.close()
 
     for l in range(0, vlen):
-        print 'data[', l, '] min = ', minV[l], ', max = ', maxV[l]
+        print('data[', l, '] min = ', minV[l], ', max = ', maxV[l])
     if nanFound:
-        print 'NaN found.'
+        print('NaN found.')
     return 0
 
 
