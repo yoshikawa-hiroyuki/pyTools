@@ -31,10 +31,10 @@ if svType != 1 and svType != 2:
     svType = buff[1]
     dType = buff[2]
     if svType != 1 and svType != 2:
-        print "invalid svType: not 1 nor 2"
+        print("invalid svType: not 1 nor 2")
         sys.exit(-1)
 if dType != 1 and dType != 2:
-    print "invalid dType: not 1 nor 2"
+    print("invalid dType: not 1 nor 2")
     sys.exit(-1)
 
 if svType == 1:
@@ -47,7 +47,7 @@ else:
     rlen = 8
 
 if rlen != 8:
-    print 'source file is not double sph'
+    print('source file is not double sph')
     sys.exit(-2)
 
 # size record
@@ -55,7 +55,7 @@ buff = struct.unpack(ibo+'i3qi', ifp.read(32))
 dims = (buff[1], buff[2], buff[3])
 dimSz = dims[0] * dims[1] * dims[2]
 if dimSz < 1:
-    print "invalid dims: %d x %d x %d" % (dims[0], dims[1], dims[2])
+    print("invalid dims: %d x %d x %d" % (dims[0], dims[1], dims[2]))
     sys.exit(-1)
 
 # org record

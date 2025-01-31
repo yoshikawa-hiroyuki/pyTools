@@ -10,14 +10,14 @@ def moveSphOrg(in_f, out_f, trv):
     try:
         ifp = open(in_f, "rb")
     except:
-        print "open failed: %s" % in_f
+        print("open failed: %s" % in_f)
         return False
 
     # open output file
     try:
         ofp = open(out_f, "wb")
     except:
-        print "open failed: %s" % out_f
+        print("open failed: %s" % out_f)
         ifp.close()
         return False
 
@@ -39,11 +39,11 @@ def moveSphOrg(in_f, out_f, trv):
     elif ( dType == 2 ):
         buff = struct.unpack('idddi', ifp.read(32))
     org = [buff[1], buff[2], buff[3]]
-    print 'org : ', org,
+    print('org : ', org,)
     org[0] = org[0] + trv[0]
     org[1] = org[1] + trv[1]
     org[2] = org[2] + trv[2]
-    print ' => ', org
+    print(' => ', org)
     if ( dType == 1 ):
         ofp.write(struct.pack('ifffi',
                               buff[0], org[0], org[1], org[2], buff[4]))

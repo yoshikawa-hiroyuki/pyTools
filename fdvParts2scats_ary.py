@@ -23,7 +23,7 @@ def convert(srcf, dstf_base):
     try:
         ifp = open(srcf, "rb")
     except:
-        print "open failed: %s" % srcf
+        print("open failed: %s" % srcf)
         return -1
     
     # header record
@@ -56,12 +56,12 @@ def convert(srcf, dstf_base):
         if pnum < 1:
             continue
     
-        print '%d : step=%d, pnum=%d' % (stp, istep, pnum)
+        print('%d : step=%d, pnum=%d' % (stp, istep, pnum))
 
         try:
             data.resize((pnum, 3+vlen))
         except:
-            print "memory allocation failed"
+            print("memory allocation failed")
             ifp.close()
             return -1
     

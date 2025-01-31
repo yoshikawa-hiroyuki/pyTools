@@ -12,14 +12,14 @@ def svxNanChk(in_f, out_f, alt=0.0):
     try:
         ifp = open(in_f, "rb")
     except:
-        print "open failed: %s" % in_f
+        print("open failed: %s" % in_f)
         return False
 
     # open output file
     try:
         ofp = open(out_f, "wb")
     except:
-        print "open failed: %s" % out_f
+        print("open failed: %s" % out_f)
         ifp.close()
         return False
 
@@ -56,7 +56,7 @@ def svxNanChk(in_f, out_f, alt=0.0):
             ofp.write(struct.pack('f', x))
         ofp.write(ifp.read(4))
         if nanFound:
-            print "\rVolRate NaN found."
+            print("\rVolRate NaN found.")
 
     # Openrate record
     if dtype & 2:
@@ -74,7 +74,7 @@ def svxNanChk(in_f, out_f, alt=0.0):
             ofp.write(struct.pack('f', x))
         ofp.write(ifp.read(4))
         if nanFound:
-            print "\rOpenRate[X] NaN found."        
+            print("\rOpenRate[X] NaN found."        )
 
         buff = struct.unpack('i', ifp.read(4))
         sz = buff[0] / 4
@@ -90,7 +90,7 @@ def svxNanChk(in_f, out_f, alt=0.0):
             ofp.write(struct.pack('f', x))
         ofp.write(ifp.read(4))
         if nanFound:
-            print "\rOpenRate[Y] NaN found."
+            print("\rOpenRate[Y] NaN found.")
 
         buff = struct.unpack('i', ifp.read(4))
         sz = buff[0] / 4
@@ -106,7 +106,7 @@ def svxNanChk(in_f, out_f, alt=0.0):
             ofp.write(struct.pack('f', x))
         ofp.write(ifp.read(4))
         if nanFound:
-            print "\rOpenRate[Z] NaN found."
+            print("\rOpenRate[Z] NaN found.")
 
     # Medium record
     if dtype & 4:
@@ -124,7 +124,7 @@ def svxNanChk(in_f, out_f, alt=0.0):
             ofp.write(struct.pack('i', x))
         ofp.write(ifp.read(4))
         if nanFound:
-            print "\rMedium NaN found."
+            print("\rMedium NaN found.")
 
     # VoxBC record
     if dtype & 8:
@@ -142,7 +142,7 @@ def svxNanChk(in_f, out_f, alt=0.0):
             ofp.write(struct.pack('i', x))
         ofp.write(ifp.read(4))
         if nanFound:
-            print "\rVoxBC NaN found."
+            print("\rVoxBC NaN found.")
 
     # FaceBC record
     if dtype & 16:
@@ -160,7 +160,7 @@ def svxNanChk(in_f, out_f, alt=0.0):
             ofp.write(struct.pack('i', x))
         ofp.write(ifp.read(4))
         if nanFound:
-            print "\rFaceBC[X] NaN found."
+            print("\rFaceBC[X] NaN found.")
 
         buff = struct.unpack('i', ifp.read(4))
         sz = buff[0] / 4
@@ -176,7 +176,7 @@ def svxNanChk(in_f, out_f, alt=0.0):
             ofp.write(struct.pack('i', x))
         ofp.write(ifp.read(4))
         if nanFound:
-            print "\rFaceBC[Y] NaN found."
+            print("\rFaceBC[Y] NaN found.")
 
         buff = struct.unpack('i', ifp.read(4))
         sz = buff[0] / 4
@@ -192,7 +192,7 @@ def svxNanChk(in_f, out_f, alt=0.0):
             ofp.write(struct.pack('i', x))
         ofp.write(ifp.read(4))
         if nanFound:
-            print "\rFaceBC[Z] NaN found."
+            print("\rFaceBC[Z] NaN found.")
 
     ifp.close()
     ofp.close()

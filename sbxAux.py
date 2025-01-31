@@ -24,13 +24,13 @@ def replaceSbxAux(in_f, out_f):
     try:
         ifp = open(in_f, "rb")
     except:
-        print "open failed: %s" % in_f
+        print("open failed: %s" % in_f)
         return -1
 
     # attribute record
     buff = struct.unpack('cccciiiiiiiq', ifp.read(40))
     if ( buff[0] != 'S' or buff[1] != 'B' or buff[2] != 'X' ):
-        print "invalid file: not SBX"
+        print("invalid file: not SBX")
         return -1
     
     dimension = buff[4]
@@ -44,52 +44,52 @@ def replaceSbxAux(in_f, out_f):
     
     if ( dimension < 1 or dimension > 3 ):
         ifp.close()
-        print "invalid dimension: %s" % dimension
+        print("invalid dimension: %s" % dimension)
         return -1
     
     if ( vlen != 1 ):
         ifp.close()
-        print "invalid vlen: %d (!= 1)" % vlen
+        print("invalid vlen: %d (!= 1)" % vlen)
         return -1
     
     if ( dtype != 1 and dtype != 2 and dtype != 4 ):
         ifp.close()
-        print "invalid dtype: %d" % dtype
+        print("invalid dtype: %d" % dtype)
         return -1
     
     if ( rlen != 4 and rlen != 8 ):
         ifp.close()
-        print "invalid rlen: %d" % rlen
+        print("invalid rlen: %d" % rlen)
         return -1
     
     if ( crddef < 1 or crddef > 4 ):
         ifp.close()
-        print "invalid crddef: %d" % crddef
+        print("invalid crddef: %d" % crddef)
         return -1
     
     if ( dtype == 1 ):
         if ( aux == forceAuxVal ):
             ifp.close()
-            print "aux == %d, no need to convert" % forceAuxVal
+            print("aux == %d, no need to convert" % forceAuxVal)
             return -1
         else:
-            print "set aux to %d (old value = %d)" % (forceAuxVal, aux)
+            print("set aux to %d (old value = %d)" % (forceAuxVal, aux))
             aux = forceAuxVal
     else:
         ifp.close()
-        print "dtype != 1, no need to set aux record"
+        print("dtype != 1, no need to set aux record")
         return -1
     
     if ( blksize < 0 ):
         ifp.close()
-        print "invalid blksize: %d" % blksize
+        print("invalid blksize: %d" % blksize)
         return -1
     
     # open output file
     try:
         ofp = open(out_f, "wb")
     except:
-        print "open failed: %s" % out_f
+        print("open failed: %s" % out_f)
         ifp.close()
         return -1
     
@@ -129,7 +129,7 @@ def replaceSbxAux(in_f, out_f):
         pass
     
     ifp.close()
-    print "conversion done"
+    print("conversion done")
     return 0
 
 

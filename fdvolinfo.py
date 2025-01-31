@@ -22,7 +22,7 @@ def scanFDVol(tgtf):
     try:
         ifp = open(tgtf, "rb")
     except:
-        print "open failed: %s" % tgtf
+        print("open failed: %s" % tgtf)
         return -1
   
     # type record
@@ -38,27 +38,27 @@ def scanFDVol(tgtf):
             dims = (buff[1], buff[2], buff[3])
         else:
             ifp.close()
-            print "invalid file, not 4DVis volume?"
+            print("invalid file, not 4DVis volume?")
             return -1
 
     if bo == '<':
-        print 'endian = little'
+        print('endian = little')
     else:
-        print 'endian = big'
-    print "dims = ", dims
+        print('endian = big')
+    print("dims = ", dims)
     
     # time record
     buff = struct.unpack(bo+'iifi', ifp.read(16))
     step = buff[1]
     tm = buff[2]
-    print "time step = ", step, " (", tm, ")"
+    print("time step = ", step, " (", tm, ")")
     
     # bbox record
     buff = struct.unpack(bo+'iffffffi', ifp.read(32))
     org = (buff[1], buff[2], buff[3])
     gro = (buff[4], buff[5], buff[6])
-    print "bbox min = ", org
-    print "bbox max = ", gro
+    print("bbox min = ", org)
+    print("bbox max = ", gro)
 
     # data sz
     dataSz = dims[0] * dims[1] * dims[2]
@@ -66,9 +66,9 @@ def scanFDVol(tgtf):
         dataSz = dims[0] * dims[1] * dims[2] + 4 \
             - (dims[0] * dims[1] * dims[2] % 4)
     recordSz = dataSz + 8
-    print "record size = ", recordSz
+    print("record size = ", recordSz)
 
-    print "scanning data record ",
+    print("scanning data record ",)
     sys.stdout.flush()
 
     # step loop
@@ -77,14 +77,14 @@ def scanFDVol(tgtf):
         try:
             if len(ifp.read(recordSz)) < 1:
                 break # eof
-            print ".",
+            print(".",)
             sys.stdout.flush()
         except:
             break # eof
         stp = stp + 1
         continue
-    print " done."
-    print "#of step = ", stp
+    print(" done.")
+    print("#of step = ", stp)
 
     ifp.close()
     return 0

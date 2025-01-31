@@ -146,7 +146,7 @@ def convert(srcf, dstf):
     try:
         ifp = open(srcf, "rb")
     except:
-        print "open failed: %s" % srcf
+        print("open failed: %s" % srcf)
         return -1
 
     # conversion
@@ -158,7 +158,7 @@ def convert(srcf, dstf):
         if de.flag != 1 and de.flag != 2 and de.flag != 3: # not supported
             if not de.Skip(ifp): break
             continue
-        print 'converting %s(flag=%d)' % (de.gname, de.flag)
+        print('converting %s(flag=%d)' % (de.gname, de.flag))
         if de.flag == 1:
             ifp.seek(12, 1) # skip
             continue
@@ -169,11 +169,11 @@ def convert(srcf, dstf):
         # de.flag == 3 : mesh
         ret = convSurfaceElem(de, ifp, dlst)
         if not ret:
-            print 'element %s convert failed' % de.gname
+            print('element %s convert failed' % de.gname)
 
     ifp.close()
     if len(dlst) < 1:
-        print "no valid shapes"
+        print("no valid shapes")
         return -1
 
     # open dstfile
@@ -181,11 +181,11 @@ def convert(srcf, dstf):
         ofp = open(dstf, "w")
     except:
         ifp.close()
-        print "open failed: %s" % dstf
+        print("open failed: %s" % dstf)
         return -1
 
     # write shapes
-    print 'writing into file(%d trias) ...' % len(dlst),
+    print('writing into file(%d trias) ...' % len(dlst),)
     sys.stdout.flush()
     ofp.write(struct.pack('80s', 'converted d4d_shape'))
     ofp.write(struct.pack('i', len(dlst)))
@@ -194,7 +194,7 @@ def convert(srcf, dstf):
             ofp.write(struct.pack('f', dlst[i][0][j]))
         ofp.write(struct.pack('H', dlst[i][1]))
     ofp.close()
-    print 'done'
+    print('done')
     return 0
 
 

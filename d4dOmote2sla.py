@@ -138,7 +138,7 @@ def convert(srcf, dstf):
     try:
         ifp = open(srcf, "rb")
     except:
-        print "open failed: %s" % srcf
+        print("open failed: %s" % srcf)
         return -1
 
     # open dstfile
@@ -146,7 +146,7 @@ def convert(srcf, dstf):
         ofp = open(dstf, "w")
     except:
         ifp.close()
-        print "open failed: %s" % dstf
+        print("open failed: %s" % dstf)
         return -1
     ofp.write('solid d4d_shape\n')
 
@@ -157,7 +157,7 @@ def convert(srcf, dstf):
         if de.flag != 1 and de.flag != 2 and de.flag != 3: # not supported
             if not de.Skip(ifp): break
             continue
-        print 'converting %s(flag=%d)' % (de.gname, de.flag)
+        print('converting %s(flag=%d)' % (de.gname, de.flag))
         if de.flag == 1:
             ifp.seek(12, 1) # skip
             continue
@@ -168,7 +168,7 @@ def convert(srcf, dstf):
         # de.flag == 3 : mesh
         ret = convSurfaceElem(de, ifp, ofp)
         if not ret:
-            print 'element %s convert failed' % de.gname
+            print('element %s convert failed' % de.gname)
 
     ofp.write('endsolid d4d_shape\n')
     ofp.close()

@@ -7,6 +7,7 @@
 import sys
 import struct
 
+xrange = range
 
 def scanSvx(tgtf):
     """ scan SVX file and report to stdout

@@ -22,7 +22,7 @@ ifp = open(srcf, "rb")
 # attribute record
 buff = struct.unpack('cccciiiiiiiq', ifp.read(40))
 if ( buff[0] != 'S' or buff[1] != 'P' or buff[2] != 'X' ):
-    print "invalid file: not SPX"
+    print("invalid file: not SPX")
     sys.exit(-1)
 
 dimension = buff[4]
@@ -34,69 +34,69 @@ crddef = buff[9]
 aux = buff[10]
 blksize = buff[11]
 
-print "dimension = ", dimension
+print("dimension = ", dimension)
 if ( dimension < 1 or dimension > 3 ):
     ifp.close()
-    print "invalid dimension: %s" % dimension
+    print("invalid dimension: %s" % dimension)
     sys.exit(-1)
 
-print "vlen = ", vlen
+print("vlen = ", vlen)
 if ( vlen < 1 ):
     ifp.close()
-    print "invalid vlen: < 1"
+    print("invalid vlen: < 1")
     sys.exit(-1)
 
-print "dtype = ", dtype
+print("dtype = ", dtype)
 if ( dtype != 1 and dtype != 2 and dtype != 3 ):
     ifp.close()
-    print "invalid dtype: ", dtype
+    print("invalid dtype: ", dtype)
     sys.exit(-1)
 if dtype == 3: dtype = 2
 
-print "gc = ", gc
+print("gc = ", gc)
 
-print "rlen = ", rlen,
+print("rlen = ", rlen,)
 if ( rlen == 4 ):
-    print "(single precision)"
+    print("(single precision)")
     rdType = 1
 elif ( rlen == 8 ):
-    print "(double precision)"
+    print("(double precision)")
     rdType = 2
 else:
     ifp.close()
-    print "invalid rlen: ", rlen
+    print("invalid rlen: ", rlen)
     sys.exit(-1)
 
-print "crddef = ", crddef,
+print("crddef = ", crddef,)
 if ( crddef == 1 ):
-    print "(regular)"
+    print("(regular)")
 elif ( crddef == 2 ):
-    print "(collocate)"
+    print("(collocate)")
 elif ( crddef == 3 ):
-    print "(staggered 1)"
+    print("(staggered 1)")
 elif ( crddef == 4 ):
-    print "(staggered 2)"
+    print("(staggered 2)")
 else:
     ifp.close()
-    print "invalid crddef: unknown type"
+    print("invalid crddef: unknown type")
     sys.exit(-1)
 
-print "aux = ", aux,
+print("aux = ", aux,)
 
-print "blksize = ", blksize,
+print("blksize = ", blksize,)
 if ( blksize == 0 ):
-    print "(uncompressed)"
+    print("(uncompressed)")
 elif ( blksize > 0 ):
-    print "(compressed)"
+    print("(compressed)")
 else:
     ifp.close()
-    print "invalid blksize"
+    print("invalid blksize")
     sys.exit(-1)
 
 # size record
 buff = struct.unpack('qqq', ifp.read(24))
 dims = (buff[0], buff[1], buff[2])
-print "dims = ", dims
+print("dims = ", dims)
 
 # org record
 if ( rlen == 4 ):
@@ -104,7 +104,7 @@ if ( rlen == 4 ):
 else:
     buff = struct.unpack('ddd', ifp.read(24))
 org = (buff[0], buff[1], buff[2])
-print "org = ", org
+print("org = ", org)
     
 # pitch record
 if ( rlen == 4 ):
@@ -112,7 +112,7 @@ if ( rlen == 4 ):
 else:
     buff = struct.unpack('ddd', ifp.read(24))
 pitch = (buff[0], buff[1], buff[2])
-print "pitch = ", pitch
+print("pitch = ", pitch)
 
 # time record
 if ( rlen == 4 ):
@@ -120,7 +120,7 @@ if ( rlen == 4 ):
 else:
     buff = struct.unpack('qd', ifp.read(16))
 step, ftime = (buff[0], buff[1])
-print "step = %d, time = %f" % (step, ftime)
+print("step = %d, time = %f" % (step, ftime))
 
 
 # open dstfile

@@ -14,12 +14,12 @@ def convert(srcf, dstf, shdf):
     try:
         ifp = open(srcf, "rb")
     except:
-        print "open failed: %s" % srcf
+        print("open failed: %s" % srcf)
         return -1
     try:
         ofp = open(dstf, "wb")
     except:
-        print "open failed: %s" % dstf
+        print("open failed: %s" % dstf)
         ifp.close()
         return -1
     
@@ -55,14 +55,14 @@ def convert(srcf, dstf, shdf):
         if pnum < 1:
             continue
     
-        print '%d : step=%d, pnum=%d' % (stp, istep, pnum)
+        print('%d : step=%d, pnum=%d' % (stp, istep, pnum))
 
         if stp == 0:
             try:
                 data = numpy.array(0, dtype=float)
                 data.resize((pnum, 3+vlen))
             except:
-                print "memory allocation failed"
+                print("memory allocation failed")
                 ifp.close()
                 ofp.close()
                 return -1
@@ -92,7 +92,7 @@ def convert(srcf, dstf, shdf):
             od = numpy.array(0, dtype=float)
             od.resize((stp+1, pnum*3))
         except:
-            print "memory allocation failed"
+            print("memory allocation failed")
             ifp.close()
             ofp.close()
             return -1

@@ -25,14 +25,14 @@ def scanSbx(tgtf, forceAuxVal =-1):
     try:
         ifp = open(tgtf, "rb")
     except:
-        print "open failed: %s" % tgtf
+        print("open failed: %s" % tgtf)
         return -1
     
     # attribute record
     buff = struct.unpack('cccciiiiiiiq',
         ifp.read(struct.calcsize('cccciiiiiiiq')))
     if ( buff[0] != 'S' or buff[1] != 'B' or buff[2] != 'X' ):
-        print "invalid file: not SBX"
+        print("invalid file: not SBX")
         return -1
     
     dimension = buff[4]
@@ -46,62 +46,62 @@ def scanSbx(tgtf, forceAuxVal =-1):
     
     if ( forceAuxVal >= 0 ):
         if ( forceAuxVal > 40 ):
-            print "invalid aux value specified, ignore"
+            print("invalid aux value specified, ignore")
         else:
             aux = forceAuxVal
     
-    print "dimension = ", dimension
+    print("dimension = ", dimension)
     if ( dimension < 1 or dimension > 3 ):
         ifp.close()
-        print "invalid dimension: %s" % dimension
+        print("invalid dimension: %s" % dimension)
         return -1
     
-    print "vlen = ", vlen
+    print("vlen = ", vlen)
     if ( vlen != 1 ):
         ifp.close()
-        print "invalid vlen: != 1"
+        print("invalid vlen: != 1")
         return -1
     
-    print "dtype = ", dtype
+    print("dtype = ", dtype)
     if ( dtype != 1 and dtype != 2 and dtype != 4 ):
         ifp.close()
-        print "invalid dtype"
+        print("invalid dtype")
         return -1
     
-    print "gc = ", gc
+    print("gc = ", gc)
     
-    print "rlen = ", rlen,
+    print("rlen = ", rlen,)
     if ( rlen == 4 ):
-        print "(single precision)"
+        print("(single precision)")
     elif ( rlen == 8 ):
-        print "(double precision)"
+        print("(double precision)")
     else:
         ifp.close()
-        print "invalid rlen"
+        print("invalid rlen")
         return -1
     
-    print "crddef = ", crddef,
+    print("crddef = ", crddef,)
     if ( crddef == 1 ):
-        print "(regular)"
+        print("(regular)")
     elif ( crddef == 2 ):
-        print "(collocate)"
+        print("(collocate)")
     elif ( crddef == 3 ):
-        print "(staggered 1)"
+        print("(staggered 1)")
     elif ( crddef == 4 ):
-        print "(staggered 2)"
+        print("(staggered 2)")
     else:
         ifp.close()
-        print "invalid crddef: unknown type"
+        print("invalid crddef: unknown type")
         return -1
 
-    print "aux = ", aux,
+    print("aux = ", aux,)
     d1bits = 0
     d2bits = 0
     d1mask = 0
     complexD = False
     if ( dtype == 1 ):
         if ( aux == 0 ):
-            print "(simple 8bit data)"
+            print("(simple 8bit data)")
         else:
             d2bits = aux & 15
             d1bits = 8 - d2bits
@@ -109,27 +109,27 @@ def scanSbx(tgtf, forceAuxVal =-1):
             useD1, useD2 = "used", "used"
             if auxUse == 1: useD2 = "unused"
             elif auxUse == 2: useD1 = "unused"
-            print "(%s %dbit + %s %dbit complex data)" \
-                  % (useD1, d1bits, useD2, d2bits)
+            print("(%s %dbit + %s %dbit complex data)" \
+                  % (useD1, d1bits, useD2, d2bits))
             d1mask = 2**d1bits - 1
             complexD = True
     else:
-        print "(not used)"
+        print("(not used)")
     
-    print "blksize = ", blksize,
+    print("blksize = ", blksize,)
     if ( blksize == 0 ):
-        print "(uncompressed)"
+        print("(uncompressed)")
     elif ( blksize > 0 ):
-        print "(compressed)"
+        print("(compressed)")
     else:
         ifp.close()
-        print "invalid blksize"
+        print("invalid blksize")
         return -1
     
     # size record
     buff = struct.unpack('qqq', ifp.read(24))
     dims = (buff[0], buff[1], buff[2])
-    print "dims = ", dims
+    print("dims = ", dims)
     
     # org record
     if ( rlen == 4 ):
@@ -137,7 +137,7 @@ def scanSbx(tgtf, forceAuxVal =-1):
     else:
         buff = struct.unpack('ddd', ifp.read(24))
     org = (buff[0], buff[1], buff[2])
-    print "org = ", org
+    print("org = ", org)
     
     # pitch record
     if ( rlen == 4 ):
@@ -145,11 +145,11 @@ def scanSbx(tgtf, forceAuxVal =-1):
     else:
         buff = struct.unpack('ddd', ifp.read(24))
     pitch = (buff[0], buff[1], buff[2])
-    print "pitch = ", pitch
+    print("pitch = ", pitch)
     
     
     # process data block
-    print "scanning data record ...\r",
+    print("scanning data record ...\r",)
     sys.stdout.flush()
     dimSz = dims[0] * dims[1] * dims[2]
     if ( dtype == 1 ):
@@ -208,8 +208,8 @@ def scanSbx(tgtf, forceAuxVal =-1):
         zblkSz = buff[0]
     
     if ( complexD ):
-        print "data0(%dbit) min = " % d1bits, minR, ", max = ", maxR
-    print "data1 min = ", minV, ", max = ", maxV
+        print("data0(%dbit) min = " % d1bits, minR, ", max = ", maxR)
+    print("data1 min = ", minV, ", max = ", maxV)
     
     
     # optional record
@@ -217,13 +217,13 @@ def scanSbx(tgtf, forceAuxVal =-1):
         buff = struct.unpack('qqqqqq', ifp.read(48))
     except:
         ifp.close()
-        print "no optional data"
+        print("no optional data")
         return 0
     
     wdims = (buff[0], buff[1], buff[2])
     staidx = (buff[3], buff[4], buff[5])
-    print "wdims = ", wdims
-    print "start = ", staidx
+    print("wdims = ", wdims)
+    print("start = ", staidx)
     
     ifp.close()
     return 0

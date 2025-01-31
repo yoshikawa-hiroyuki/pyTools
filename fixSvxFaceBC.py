@@ -10,14 +10,14 @@ def fixSvxFaceBC(in_f, out_f):
     try:
         ifp = open(in_f, "rb")
     except:
-        print "open failed: %s" % in_f
+        print("open failed: %s" % in_f)
         return False
 
     # open output file
     try:
         ofp = open(out_f, "wb")
     except:
-        print "open failed: %s" % out_f
+        print("open failed: %s" % out_f)
         ifp.close()
         return False
 

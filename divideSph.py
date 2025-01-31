@@ -5,10 +5,10 @@ import struct
 
 def divideSph(divCnt, sphPath, outDir ='.'):
     if len(divCnt) != 3:
-        print "invalid div count: ", divCnt
+        print("invalid div count: ", divCnt)
         return False
     if divCnt[0] < 1 or divCnt[1] < 1 or divCnt[2] < 1 :
-        print "invalid div count: ", divCnt
+        print("invalid div count: ", divCnt)
         return False
 
     #------------- load sph file -------------
@@ -16,7 +16,7 @@ def divideSph(divCnt, sphPath, outDir ='.'):
     try:
         ifp = open(sphPath, "rb")
     except:
-        print "open failed: %s" % sphPath
+        print("open failed: %s" % sphPath)
         return False
 
     # attribure record
@@ -24,10 +24,10 @@ def divideSph(divCnt, sphPath, outDir ='.'):
     svType = buff[1]
     dType = buff[2]
     if svType != 1 and svType != 2:
-        print "invalid svType: not 1 nor 2"
+        print("invalid svType: not 1 nor 2")
         return False
     if dType != 1 and dType != 2:
-        print "invalid dType: not 1 nor 2"
+        print("invalid dType: not 1 nor 2")
         return False
 
     if svType == 1:
@@ -49,7 +49,7 @@ def divideSph(divCnt, sphPath, outDir ='.'):
     dims = (buff[1], buff[2], buff[3])
     dimSz = dims[0] * dims[1] * dims[2]
     if dimSz < 1:
-        print "invalid dims: %d x %d x %d" % (dims[0], dims[1], dims[2])
+        print("invalid dims: %d x %d x %d" % (dims[0], dims[1], dims[2]))
         return False
 
     # org record
@@ -121,10 +121,10 @@ def divideSph(divCnt, sphPath, outDir ='.'):
 
                 newPath = base_path + '_%04d.sph' % fileIdx
 
-                print 'newPath=', newPath
-                print 'newDims=', newDims
-                print 'newOrg=', newOrg
-                print 'newOrgIdx=', newOrgIdx
+                print('newPath=', newPath)
+                print('newDims=', newDims)
+                print('newOrg=', newOrg)
+                print('newOrgIdx=', newOrgIdx)
 
                 # write sph file
                 ofp = open(newPath, 'wb')

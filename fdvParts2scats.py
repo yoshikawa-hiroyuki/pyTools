@@ -23,7 +23,7 @@ def convert(srcf, dstf_base):
     try:
         ifp = open(srcf, "rb")
     except:
-        print "open failed: %s" % srcf
+        print("open failed: %s" % srcf)
         return -1
     
     # header record
@@ -54,14 +54,14 @@ def convert(srcf, dstf_base):
         if pnum < 1:
             continue
     
-        print '%d : step=%d, pnum=%d' % (stp, istep, pnum)
+        print('%d : step=%d, pnum=%d' % (stp, istep, pnum))
     
         # open dstfile
         dstf = dstf_base + '_%08d.scat' % istep
         try:
             ofp = open(dstf, "w")
         except:
-            print "open failed: %s" % dstf
+            print("open failed: %s" % dstf)
             return -1
         ofp.write('# %s generated\n' % sys.argv[0])
         ofp.write('#TS %d %f\n' % (istep, ftime))

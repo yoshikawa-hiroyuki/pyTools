@@ -49,12 +49,12 @@ import struct
 try:
     import Image
 except:
-    print '%s: import Image failed, PIL may not installed' % sys.argv[0]
+    print('%s: import Image failed, PIL may not installed' % sys.argv[0])
 
 
 def usage():
-    print 'usage: %s -o outfile [-bb x0 y0 z0 x1 y1 z1] infile1 infile2 ...' \
-        % sys.argv[0]
+    print('usage: %s -o outfile [-bb x0 y0 z0 x1 y1 z1] infile1 infile2 ...' \
+        % sys.argv[0])
     return
 
 def LoadImage(filename):
@@ -64,13 +64,13 @@ def LoadImage(filename):
         try:
             import dicom
         except:
-            print '%s: import dicom failed, pydicom may not installed' \
-                % sys.argv[0]
+            print('%s: import dicom failed, pydicom may not installed' \
+                % sys.argv[0])
             return None
         try:
             dataset = dicom.read_file(filename)
         except:
-            print '%s: can not read dicom file: %s' % (sys.argv[0], filename)
+            print('%s: can not read dicom file: %s' % (sys.argv[0], filename))
             return None
         bits = dataset.BitsAllocated
         samples = dataset.SamplesPerPixel
@@ -81,8 +81,8 @@ def LoadImage(filename):
         elif bits == 16:
             mode = 'I;16'
         else:
-            print '%s: can not figure out PIL mode for %s' \
-                % (sys.argv[0], filename)
+            print('%s: can not figure out PIL mode for %s' \
+                % (sys.argv[0], filename))
             return None
         size = (dataset.Columns, dataset.Rows)
         im = Image.frombuffer(mode, size, dataset.PixelData, 'raw', mode, 0, 1)
@@ -95,18 +95,18 @@ def CreateFdvVol(outfile, infiles, bbox=None):
     dims = [0, 0, 0]
     img = LoadImage(infiles[0])
     if not img:
-        print '%s: open failed: %s' % (sys.argv[0], infiles[0])
+        print('%s: open failed: %s' % (sys.argv[0], infiles[0]))
         return -1
     (dims[0], dims[1]) = img.size
     if dims[0] * dims[1] < 1:
-        print '%s: invalid input image: %s' % (sys.argv[0], infiles[0])
+        print('%s: invalid input image: %s' % (sys.argv[0], infiles[0]))
         return -1
     dims[2] = len(infiles)
 
     try:
         ofp = open(outfile, 'wb')
     except:
-        print '%s: open failed: %s' % (sys.argv[0], outfile)
+        print('%s: open failed: %s' % (sys.argv[0], outfile))
         return -1
 
     # size
@@ -127,18 +127,18 @@ def CreateFdvVol(outfile, infiles, bbox=None):
     ofp.write(struct.pack('i', dims[0]*dims[1]*dims[2]))
 
     for z in range(dims[2]):
-        print '  converting %s ...' % infiles[z],
+        print('  converting %s ...' % infiles[z],)
         img = LoadImage(infiles[z])
         if not img:
-            print '%s: open failed: %s' % (sys.argv[0], infiles[z])
+            print('%s: open failed: %s' % (sys.argv[0], infiles[z]))
             ofp.close()
             return -1
         if img.size[0] != dims[0] or img.size[1] != dims[1]:
-            print '%s: image size not match: %s' % (sys.argv[0], infiles[z])
+            print('%s: image size not match: %s' % (sys.argv[0], infiles[z]))
             ofp.close()
             return -1
         ofp.write(img.tostring())
-        print 'done'
+        print('done')
         continue
 
     ofp.write(struct.pack('i', dims[0]*dims[1]*dims[2]))
@@ -149,21 +149,21 @@ def CreateAvsVol(outfile, infiles, bbox=None):
     dims = [0, 0, 0]
     img = LoadImage(infiles[0])
     if not img:
-        print '%s: open failed: ' % (sys.argv[0], infiles[0])
+        print('%s: open failed: ' % (sys.argv[0], infiles[0]))
         return -1
     (dims[0], dims[1]) = img.size
     if dims[0] * dims[1] < 1:
-        print '%s: invalid input image: %s' % (sys.argv[0], infiles[0])
+        print('%s: invalid input image: %s' % (sys.argv[0], infiles[0]))
         return -1
     dims[2] = len(infiles)
     if dims[0] > 255 or dims[1] > 255 or dims[2] > 255:
-        print '%s: invalid input image size' % sys.argv[0]
+        print('%s: invalid input image size' % sys.argv[0])
         return -1
     
     try:
         ofp = open(outfile, 'wb')
     except:
-        print '%s: open failed: %s' % (sys.argv[0], outfile)
+        print('%s: open failed: %s' % (sys.argv[0], outfile))
         return -1
 
     # size
@@ -171,18 +171,18 @@ def CreateAvsVol(outfile, infiles, bbox=None):
 
     # datas
     for z in range(dims[2]):
-        print '  converting %s ...' % infiles[z],
+        print('  converting %s ...' % infiles[z],)
         img = LoadImage(infiles[z])
         if not img:
-            print '%s: open failed: %s' % (sys.argv[0], infiles[z])
+            print('%s: open failed: %s' % (sys.argv[0], infiles[z]))
             ofp.close()
             return -1
         if img.size[0] != dims[0] or img.size[1] != dims[1]:
-            print '%s: image size not match: %s' % (sys.argv[0], infiles[z])
+            print('%s: image size not match: %s' % (sys.argv[0], infiles[z]))
             ofp.close()
             return -1
         ofp.write(img.tostring())
-        print 'done'
+        print('done')
         continue
 
     ofp.close()
@@ -192,18 +192,18 @@ def CreateSph(outfile, infiles, bbox=None):
     dims = [0, 0, 0]
     img = LoadImage(infiles[0])
     if not img:
-        print '%s: open failed: %s' % (sys.argv[0], infiles[0])
+        print('%s: open failed: %s' % (sys.argv[0], infiles[0]))
         return -1
     (dims[0], dims[1]) = img.size
     if dims[0] * dims[1] < 1:
-        print '%s: invalid input image: %s' % (sys.argv[0], infiles[0])
+        print('%s: invalid input image: %s' % (sys.argv[0], infiles[0]))
         return -1
     dims[2] = len(infiles)
 
     try:
         ofp = open(outfile, 'wb')
     except:
-        print '%s: open failed: %s' % (sys.argv[0], outfile)
+        print('%s: open failed: %s' % (sys.argv[0], outfile))
         return -1
 
     # header
@@ -230,21 +230,21 @@ def CreateSph(outfile, infiles, bbox=None):
     ofp.write(struct.pack('i', dims[0] * dims[1] * dims[2] * 4))
 
     for z in range(dims[2]):
-        print '  converting %s ...' % infiles[z],
+        print('  converting %s ...' % infiles[z],)
         img = LoadImage(infiles[z])
         if not img:
-            print '%s: open failed: %s' % (sys.argv[0], infiles[z])
+            print('%s: open failed: %s' % (sys.argv[0], infiles[z]))
             ofp.close()
             return -1
         if img.size[0] != dims[0] or img.size[1] != dims[1]:
-            print '%s: image size not match: %s' % (sys.argv[0], infiles[z])
+            print('%s: image size not match: %s' % (sys.argv[0], infiles[z]))
             ofp.close()
             return -1
         for y in range(dims[1]):
             for x in range(dims[0]):
                 val = float(img.getpixel((x, y)))
                 ofp.write(struct.pack('f', val))
-        print 'done'
+        print('done')
         continue
 
     ofp.write(struct.pack('i', dims[0]*dims[1]*dims[2]*4))
@@ -289,7 +289,7 @@ if __name__ == '__main__':
     infiles = reduce(operator.add, map(glob.glob, sys.argv[idx:]))
     numInfs = len(infiles)
     if len(outfile) < 4:
-        print '%s: invalid outfile specified: %s' % (sys.argv[0], outfile)
+        print('%s: invalid outfile specified: %s' % (sys.argv[0], outfile))
         sys.exit(1)
     outSfx = outfile[-3:]
     if outSfx == 'vol' or outSfx == 'fdv':        # 4DVis
@@ -299,7 +299,7 @@ if __name__ == '__main__':
     elif outSfx == 'sph':      # Sphere
         ret = CreateSph(outfile, infiles, bbox)
     else:
-        print '%s: unsupported outfile specified: %s' % (sys.argv[0], outfile)
+        print('%s: unsupported outfile specified: %s' % (sys.argv[0], outfile))
         sys.exit(1)
     if ret != 0:
         sys.exit(1)
